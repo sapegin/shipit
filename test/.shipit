@@ -1,5 +1,5 @@
-host='asapegin@www1.d3'
-path='badoo'
+host='seal'
+path='sites/blog.sapegin.me'
 
 [deploy]
 git checkout master
