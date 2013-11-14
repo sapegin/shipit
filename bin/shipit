@@ -112,7 +112,7 @@ run() {
 list_targets() {
 	read_config
 	header "Available shipit targets:"
-	awk '/^\[/ {print "• " $1}' .shipit | tr -d []
+	awk '/^\[/ {print "• " $1}' $CONFIG | tr -d ']['
 }
 
 # Open remote terminal
