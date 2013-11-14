@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+
+#
+# Minimalistic SSH deployment.
+# 
+# Author: Artem Sapegin, sapegin.me
+# License: MIT
+#
+# Inspired by:
+# https://github.com/visionmedia/deploy
+# http://gleero.com/all/remote-ssh/
+#
+
+
+VERSION="0.0.1"
+CONFIG=./.shipit
+TARGET=deploy
+SSH_HOST=
+SSH_PATH=
+
+# Common stuff
+RED="$(tput setaf 1)"
+CYAN="$(tput setaf 6)"
+UNDERLINE="$(tput sgr 0 1)"
+NOCOLOR="$(tput sgr0)"
+function header() { echo -e "$UNDERLINE$CYAN$1$NOCOLOR\n"; }
+function error() { echo -e "$UNDERLINE$RED$1$NOCOLOR\n"; }
+
+# Print usage information
+usage() {
+	version
+	echo
+	echo "Usage: `basename $0` [command|option]"
+	echo
+	echo "Options:"
+	echo
+	echo "    -V, --version    Print program version"
+	echo "    -h, --help       Print help (this screen)"
+	echo
+	echo "Commands:"
+	echo
+	echo "    <target>         Executes <target> target on remote host (run shipit to execute 'deploy' target)"
+	echo "    list             Print list of available targets"
+	echo "    console          Open an SSH session on remote host"
+	echo "    exec <cmd>       Execute <cmd> on remote host"
+	echo
+}
+
+# Print error message and exit
+abort() {
+	echo
+	error "$@"
+	exit 1
+}
+
+# Print version number
+version() {
+	echo
+	echo "`basename $0` v$VERSION"
+}
+
+# Read and validate config file
+read_config() {
+	# Check config file existance
+	test -f $CONFIG || abort "Config file '$CONFIG' not found." 
+
+	# Read and eval first section
+	local config=`awk '/^/ {print; exit}' RS= $CONFIG`
+	eval $config
+
+	# Check required params
+	test -z "$host" && incomplete_config 'host'
+	test -z "$path" && incomplete_config 'path'
+	test -z "$host" || test -z "$path" && exit 1
+	
+	# Expose params
+	SSH_HOST=$host
+	SSH_PATH=$path
+}
+
+# Print message about missing config param
+incomplete_config() {
+	error "Incomplete config: '$1' not defined."
+}
+
+# Deploy specified target
+deploy() {
+	read_config
+
+	# Check target existance
+	target_exists $TARGET || abort "Target '$TARGET' not found in config file."
+
+	# Read target script
+	local script=`awk "/^\[$TARGET\]/ {print; exit}" RS= $CONFIG | sed 1d`
+
+	# Execute
+	header "Running $TARGET on $SSH_HOST..."
+	run "$script"
+}
+
+# Check if config <section> exists
+target_exists() {
+	grep "^\[$1\]" $CONFIG &> /dev/null
+}
+
+# Run script or command via SSH with cd to remote path
+run() {
+	ssh $2 "$SSH_HOST" "cd \"$SSH_PATH\"; $1"
+}
+
+# Print available targets
+list_targets() {
+	read_config
+	header "Available shipit targets:"
+	awk '/^\[/ {print "• " $1}' .shipit | tr -d []
+}
+
+# Open remote terminal
+open_console() {
+	read_config
+	header "Opening terminal on $SSH_HOST..."
+	run "\$SHELL --login" "-t"
+}
+
+# Execute command via SSH
+exec_command() {
+	read_config
+	header "Executing $@ on $SSH_HOST..."
+	run $@
+}
+
+
+########################################################################################################################
+
+# Parse CLI arguments
+arg=$1; shift
+case $arg in
+	-h|--help) usage; exit ;;
+	-V|--version) version; exit ;;
+	list) list_targets; exit ;;
+	console) open_console; exit ;;
+	run|exec) exec_command "$@"; exit ;;
+	*) TARGET="$arg" ;;
+esac
+
+# Run specified target
+deploy

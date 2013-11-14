@@ -1,0 +1,13 @@
+host='asapegin@www1.d3'
+path='badoo'
+
+[deploy]
+git checkout master
+git pull
+npm install
+node -e "require('grunt').cli()" _ deploy
+./node_modules/.bin/docpad generate --env en
+./node_modules/.bin/docpad generate --env ru
+
+[status]
+uptime
