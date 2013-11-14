@@ -20,8 +20,11 @@ SSH_PATH=
 
 # Common stuff
 RED="$(tput setaf 1)"
+GREEN="$(tput setaf 2)"
+WHITE="$(tput setaf 7)"
 CYAN="$(tput setaf 6)"
 UNDERLINE="$(tput sgr 0 1)"
+BOLD="$(tput bold)"
 NOCOLOR="$(tput sgr0)"
 function header() { echo -e "$UNDERLINE$CYAN$1$NOCOLOR\n"; }
 function error() { echo -e "$UNDERLINE$RED$1$NOCOLOR\n"; }
@@ -59,10 +62,20 @@ version() {
 	echo "`basename $0` v$VERSION"
 }
 
+# Print squirrel
+squirrel() {
+	echo "$WHITE"
+	echo "    __  (\\_"
+	echo "   (_ \\ ( $GREEN$BOLD'$NOCOLOR$WHITE>"
+	echo "     ) \\/_)="
+	echo "     (_(_ )_"
+	echo "$NOCOLOR"
+}
+
 # Read and validate config file
 read_config() {
 	# Check config file existance
-	test -f $CONFIG || abort "Config file '$CONFIG' not found." 
+	test -f $CONFIG || abort "Config file $CONFIG not found." 
 
 	# Read and eval first section
 	local config=`awk '/^/ {print; exit}' RS= $CONFIG`
@@ -88,14 +101,17 @@ deploy() {
 	read_config
 
 	# Check target existance
-	target_exists $TARGET || abort "Target '$TARGET' not found in config file."
+	target_exists $TARGET || abort "Target $TARGET not found in config file."
 
 	# Read target script
 	local script=`awk "/^\[$TARGET\]/ {print; exit}" RS= $CONFIG | sed 1d`
 
-	# Execute
-	header "Running $TARGET on $SSH_HOST..."
+	# Ship it!
+	header "Shipping $TARGET on $SSH_HOST..."
 	run "$script"
+
+	# Shipped
+	squirrel
 }
 
 # Check if config <section> exists
