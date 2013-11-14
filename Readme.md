@@ -5,22 +5,26 @@ Minimalistic SSH deployment.
 
 ## Installation
 
-  $ path=/usr/local/bin/shipit; curl -o $path https://raw.github.com/sapegin/shipit/master/bin/shipit; chmod +x $path; unset path
+    $ path=/usr/local/bin/shipit; curl -o $path https://raw.github.com/sapegin/shipit/master/bin/shipit; chmod +x $path; unset path
 
 You can use this command to update shipit too.
 
 
 ## Usage
 
-  shipit [command|option]
+    shipit [command|option]
 
 ### Options
 
+| Option          | Description |
+| --------------- | --- |
 | -V, --version   | Print program version |
 | -h, --help      | Print help (this screen) |
 
 ### Commands
 
+| Command         | Description |
+| --------------- | --- |
 | <target>        | Executes <target> target on remote host (run shipit to execute 'deploy' target) |
 | list            | Print list of available targets |
 | console         | Open an SSH session on remote host |
@@ -28,21 +32,21 @@ You can use this command to update shipit too.
 
 ### Examples
 
-  $ shipit
+    $ shipit
 
-  Will execute `deploy` target.
+Will execute `deploy` target.
 
-  $ shipit status
+    $ shipit status
 
-  Will execute `status` target.
+Will execute `status` target.
 
-  $ shipit list
+    $ shipit list
 
-  Will show a list of available targets.
+Will show a list of available targets.
 
-  $ shipit exec uptime
+    $ shipit exec uptime
 
-  Will execute `uptime` command on remote host.
+Will execute `uptime` command on remote host.
 
 
 ## Configuration
@@ -51,17 +55,17 @@ You need to create `.shipit` file in your project’s directory.
 
 Here is a typical config:
 
-  host='myhost'
-  path='sites/example.com'
+    host='myhost'
+    path='sites/example.com'
 
-  [deploy]
-  git checkout master
-  git pull
-  npm install
-  node -e "require('grunt').cli()" _ deploy
-  
-  [status]
-  uptime
+    [deploy]
+    git checkout master
+    git pull
+    npm install
+    node -e "require('grunt').cli()" _ deploy
+
+    [status]
+    uptime
 
 The only required things is `host` and `path` parameters and `[deploy]` target.
 
