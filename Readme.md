@@ -83,6 +83,8 @@ Project path on remote host. shipit will `cd` to this directory before executin
 
 Target is just a bunch of shell command that will be executed on remote host via SSH. You can define as many targets as you want.
 
+Note that you can’t use blank lines inside targets but you can use comments (#) and other things—it’s just a shell script.
+
 
 ## Changelog
 
