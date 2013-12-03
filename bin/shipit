@@ -150,14 +150,16 @@ exec_command() {
 
 # Parse CLI arguments
 arg=$1; shift
-case $arg in
-	-h|--help) usage; exit ;;
-	-V|--version) version; exit ;;
-	list) list_targets; exit ;;
-	console) open_console; exit ;;
-	run|exec) exec_command "$@"; exit ;;
-	*) TARGET="$arg" ;;
-esac
+if [ -n "$arg" ]; then
+	case $arg in
+		-h|--help) usage; exit ;;
+		-V|--version) version; exit ;;
+		list) list_targets; exit ;;
+		console) open_console; exit ;;
+		run|exec) exec_command "$@"; exit ;;
+		*) TARGET="$arg" ;;
+	esac
+fi
 
 # Run specified target
 deploy
