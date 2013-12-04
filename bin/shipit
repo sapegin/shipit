@@ -65,9 +65,9 @@ version() {
 # Print squirrel
 squirrel() {
 	echo "$WHITE"
-	echo "    __  (\\_"
-	echo "   (_ \\ ( $GREEN$BOLD'$NOCOLOR$WHITE>"
-	echo "     ) \\/_)="
+	echo "    __  (\\_    ⎧ ⎻⎻⎻⎻⎻⎻⎻⎻⎫"
+	echo "   (_ \\ ( $GREEN$BOLD'$NOCOLOR$WHITE>  〈 SHIP IT!⎟"
+	echo "     ) \\/_)=   ⎩ ⎽⎽⎽⎽⎽⎽⎽⎽⎭"
 	echo "     (_(_ )_"
 	echo "$NOCOLOR"
 }
