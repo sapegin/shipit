@@ -2,6 +2,7 @@
 
 Minimalistic SSH deployment.
 
+![shipit](http://blog.sapegin.me/images/mac__shipit.png)
 
 ## Installation
 
