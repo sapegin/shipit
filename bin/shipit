@@ -155,7 +155,7 @@ if [ -n "$arg" ]; then
 		-h|--help) usage; exit ;;
 		-V|--version) version; exit ;;
 		list) list_targets; exit ;;
-		console) open_console; exit ;;
+		console|shell|ssh) open_console; exit ;;
 		run|exec) exec_command "$@"; exit ;;
 		*) TARGET="$arg" ;;
 	esac
