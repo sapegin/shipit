@@ -10,7 +10,7 @@ Minimalistic SSH deployment.
 
 You can use this command to update shipit too.
 
-Run from root user or replace `/usr/local/bin/shipit` on the path of your home directory.
+*Use `sudo` or replace `/usr/local/bin/shipit` to path somewhere inside your home directory.*
 
 ## Usage
 
