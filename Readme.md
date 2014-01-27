@@ -6,10 +6,11 @@ Minimalistic SSH deployment.
 
 ## Installation
 
-    $ path=/usr/local/bin/shipit; curl -o $path https://raw.github.com/sapegin/shipit/master/bin/shipit; chmod +x $path; unset path
+    $ pathtoshipit=/usr/local/bin/shipit; curl -o $pathtoshipit https://raw.github.com/sapegin/shipit/master/bin/shipit; chmod +x $pathtoshipit; unset pathtoshipit
 
 You can use this command to update shipit too.
 
+Run from root user or replace `/usr/local/bin/shipit` on the path of your home directory.
 
 ## Usage
 
