@@ -90,11 +90,11 @@ Note that you can’t use blank lines inside targets but you can use comments (#
 
 ## Changelog
 
-The changelog can be found in the `Changelog.md` file.
+The changelog can be found in the [Changelog.md](Changelog.md) file.
 
 
 ---
 
 ## License
 
-The MIT License, see the included `License.md` file.
+The MIT License, see the included [License.md](License.md) file.
