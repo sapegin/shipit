@@ -121,7 +121,7 @@ target_exists() {
 
 # Run script or command via SSH with cd to remote path
 run() {
-	ssh -A $2 "$SSH_HOST" "cd \"$SSH_PATH\"; $1"
+	ssh -A $2 "$SSH_HOST" "cd \"$SSH_PATH\" 2>/dev/null || { echo \"Remote directory $SSH_PATH doesn't exist\"; exit 1; }; $1"
 }
 
 # Print available targets
