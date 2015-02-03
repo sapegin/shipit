@@ -110,8 +110,12 @@ deploy() {
 	header "Shipping $TARGET on $SSH_HOST..."
 	run "$script"
 
-	# Shipped
-	squirrel
+	# Shipped?
+	if [ $? -eq 0 ]; then
+		squirrel
+	else
+		abort "Deploy wasn’t successful."
+	fi
 }
 
 # Check if config <section> exists
