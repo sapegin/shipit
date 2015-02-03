@@ -125,7 +125,18 @@ target_exists() {
 
 # Run script or command via SSH with cd to remote path
 run() {
-	ssh -A $2 "$SSH_HOST" "cd \"$SSH_PATH\" 2>/dev/null || { echo \"Remote directory $SSH_PATH doesn't exist\"; exit 1; }; $1"
+	# 1. Connect to remote host (-A enables forwarding of the authentication agent connection).
+	# 2. Configure shell to exit on first erorr (set -e).
+	# 3. Check destination directory.
+	# 4. Open destination directory.
+	# 5. Run script.
+	local script="""
+		set -e
+		test -d \"$SSH_PATH\" || { echo \"${RED}Remote directory $SSH_PATH doesn’t exist.$NOCOLOR\"; exit 1; }
+		cd \"$SSH_PATH\"
+		$1
+	"""
+	ssh -A $2 "$SSH_HOST" "$script"
 }
 
 # Print available targets
