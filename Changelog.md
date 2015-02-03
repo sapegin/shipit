@@ -1,6 +1,12 @@
+### 2015-02-03 v0.0.4
+
+* Exit when directory doesn't exist (by [@albburtsev](https://github.com/albburtsev)).
+* Stop deploy on first error.
+* Show error message on failed deploy.
+
 ### 2015-01-29 v0.0.3
 
-* Enable SSH keys forwarding.
+* Enable SSH keys forwarding (by [@albburtsev](https://github.com/albburtsev)).
 
 ### 2013-12-03 v0.0.2
 
