@@ -7,6 +7,9 @@ arguments(){
 		'(-h --help)'{-h,--help}'[Print help (this screen)]' \
 }
 
+_arguments \
+  '*:: :->subcmds' && return 0
+
 if (( CURRENT == 1 )); then
 	arguments
 fi
