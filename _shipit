@@ -13,3 +13,7 @@ _arguments \
 if (( CURRENT == 1 )); then
 	arguments
 fi
+
+if (( CURRENT == 2 )); then
+	arguments
+fi
