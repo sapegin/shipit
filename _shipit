@@ -1,7 +1,12 @@
 #compdef shipit
 #autoload
 
+arguments(){
+	_values -C 'Arguments'  \
+		'(-v --version)'{-v,--version}'[Print program version]' \
+		'(-h --help)'{-h,--help}'[Print help (this screen)]' \
+}
 
-_values -C 'Arguments'  \
-	'(-v --version)'{-v,--version}'[Print program version]' \
-	
+if (( CURRENT == 1 )); then
+	arguments
+fi
