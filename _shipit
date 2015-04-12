@@ -1,0 +1,8 @@
+#compdef shipit
+#autoload
+
+
+_values -C 'Arguments'  \
+	'(-v --version)'{-v,--version}'[Print program version]' \
+
+	 && ret=0
