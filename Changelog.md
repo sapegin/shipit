@@ -1,3 +1,7 @@
+### 2015-07-14 v0.0.5
+
+* New command: copy.
+
 ### 2015-02-03 v0.0.4
 
 * Exit when directory doesn't exist (by [@albburtsev](https://github.com/albburtsev)).
