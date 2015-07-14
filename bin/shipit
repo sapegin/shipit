@@ -160,6 +160,14 @@ exec_command() {
 	run $@
 }
 
+# Copy local file to remote host
+copy_to_remote() {
+	read_config
+	test -f "$1" || abort "Local file $1 not found." 
+	header "Copying $1 to $SSH_HOST..."
+	scp "$1" "seal:$SSH_PATH/$1"
+}
+
 
 ########################################################################################################################
 
@@ -172,6 +180,7 @@ if [ -n "$arg" ]; then
 		list) list_targets; exit ;;
 		console|shell|ssh) open_console; exit ;;
 		run|exec) exec_command "$@"; exit ;;
+		copy|cp) copy_to_remote "$@"; exit ;;
 		*) TARGET="$arg" ;;
 	esac
 fi

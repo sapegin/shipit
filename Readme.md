@@ -27,10 +27,11 @@ You can use this command to update shipit too.
 
 | Command         | Description |
 | --------------- | --- |
-| `<target>`      | Executes `<target>` target on remote host (run `shipit` to execute 'deploy' target) |
+| `<target>`      | Executes `target` target on remote host (run `shipit` to execute 'deploy' target) |
 | list            | Print list of available targets |
 | console         | Open an SSH session on remote host |
-| exec `<cmd>`    | Execute `<cmd>` on remote host |
+| exec `<cmd>`    | Execute `cmd` on remote host |
+| copy `<file>`   | Copies `files` to remote host |
 
 ### Examples
 
