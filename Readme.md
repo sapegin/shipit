@@ -33,6 +33,15 @@ You can use this command to update shipit too.
 | exec `<cmd>`    | Execute `cmd` on remote host |
 | copy `<file>`   | Copies `files` to remote host |
 
+### Command aliases
+
+| Command         | Aliases |
+| --------------- | --- |
+| list            | ls |
+| console         | shell, ssh |
+| exec            | run |
+| copy            | cp |
+
 ### Examples
 
     $ shipit

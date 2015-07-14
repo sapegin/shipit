@@ -177,9 +177,9 @@ if [ -n "$arg" ]; then
 	case $arg in
 		-h|--help) usage; exit ;;
 		-V|--version) version; exit ;;
-		list) list_targets; exit ;;
+		list|ls) list_targets; exit ;;
 		console|shell|ssh) open_console; exit ;;
-		run|exec) exec_command "$@"; exit ;;
+		exec|run) exec_command "$@"; exit ;;
 		copy|cp) copy_to_remote "$@"; exit ;;
 		*) TARGET="$arg" ;;
 	esac
