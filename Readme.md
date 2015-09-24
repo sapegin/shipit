@@ -81,6 +81,18 @@ Here is a typical config:
 
 The only required things is `host` and `path` parameters and `[deploy]` target.
 
+For non-standard port number, and to specify which SSH key to use, simply edit your ssh config at ``` ~/.ssh/config ```
+Edit this ~/.ssh/config block to fit your needs:
+```
+host example.com
+IdentityFile ~/.ssh/keyfile
+port 10022
+user usernamehere
+```
+
+
+
+
 ### Parameters
 
 ### host
