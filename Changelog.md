@@ -1,3 +1,7 @@
+### 2015-10-13 v0.0.6
+
+* Fix host name in copy command (by (@aerth)[https://github.com/aerth]).
+
 ### 2015-07-14 v0.0.5
 
 * New command: copy.
