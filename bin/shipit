@@ -165,7 +165,7 @@ copy_to_remote() {
 	read_config
 	test -f "$1" || abort "Local file $1 not found." 
 	header "Copying $1 to $SSH_HOST..."
-	scp "$1" "seal:$SSH_PATH/$1"
+	scp "$1" "$SSH_HOST:$SSH_PATH/$1"
 }
 
 
