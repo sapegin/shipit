@@ -103,28 +103,42 @@ deploy() {
 	# Check target existance
 	target_exists $TARGET || abort "Target $TARGET not found in config file."
 
-	# Read target script
-	local script=`awk "/^\[$TARGET\]/ {print; exit}" RS= $CONFIG | sed 1d`
-
 	# Ship it!
-	header "Shipping $TARGET on $SSH_HOST..."
-	run "$script"
+	header "Shipping $TARGET..."
+
+	# Read local script
+	local local_script=`awk "/^\[$TARGET:local\]/ {print; exit}" RS= $CONFIG | sed 1d`
+	if [ -n "$local_script" ]; then
+		header "Running local script..."
+		run_local "$local_script"
+		if [ $? -ne 0 ]; then
+			abort "Deploy wasn’t successful: local script failed."	
+		fi
+	fi
+
+	# Read remote script
+	local remote_script=`awk "/^\[$TARGET\]/ {print; exit}" RS= $CONFIG | sed 1d`
+	if [ -n "$remote_script" ]; then
+		header "Running remote script at $SSH_HOST..."
+		run_remote "$remote_script"
+		if [ $? -ne 0 ]; then
+			abort "Deploy wasn’t successful: remote script failed."	
+		fi
+	fi
 
 	# Shipped?
 	if [ $? -eq 0 ]; then
 		squirrel
-	else
-		abort "Deploy wasn’t successful."
 	fi
 }
 
 # Check if config <section> exists
 target_exists() {
-	grep "^\[$1\]" $CONFIG &> /dev/null
+	grep "^\[$1\(:local\)\?\]" $CONFIG &> /dev/null
 }
 
 # Run script or command via SSH with cd to remote path
-run() {
+run_remote() {
 	# 1. Connect to remote host (-A enables forwarding of the authentication agent connection).
 	# 2. Configure shell to exit on first erorr (set -e).
 	# 3. Check destination directory.
@@ -139,25 +153,33 @@ run() {
 	ssh -A $2 "$SSH_HOST" "$script"
 }
 
+# Run local script
+# Stop script execution and return 0 on first error
+run_local() {
+	trap "{ return 0; trap - ERR; }" ERR
+	eval "$1"
+	trap - ERR
+}
+
 # Print available targets
 list_targets() {
 	read_config
 	header "Available shipit targets:"
-	awk '/^\[/ {print "• " $1}' $CONFIG | tr -d ']['
+	awk '/^\[/ {gsub(":local", "", $1); print "• " $1}' $CONFIG | tr -d '][' | sort | uniq
 }
 
 # Open remote terminal
 open_console() {
 	read_config
 	header "Opening terminal on $SSH_HOST..."
-	run "\$SHELL --login" "-t"
+	run_remote "\$SHELL --login" "-t"
 }
 
 # Execute command via SSH
 exec_command() {
 	read_config
 	header "Executing $@ on $SSH_HOST..."
-	run $@
+	run_remote $@
 }
 
 # Copy local file to remote host

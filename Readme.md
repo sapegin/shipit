@@ -70,6 +70,9 @@ Here is a typical config:
     host='myhost'
     path='sites/example.com'
 
+    [deploy:local]
+    npm test
+
     [deploy]
     git checkout master
     git pull
@@ -79,7 +82,7 @@ Here is a typical config:
     [status]
     uptime
 
-The only required things is `host` and `path` parameters and `[deploy]` target.
+The only required things is `host` and `path` parameters and `[deploy]` or `[deploy:local]`  target.
 
 For non-standard port number, and to specify which SSH key to use, edit your SSH config at `~/.ssh/config`:
 
@@ -105,6 +108,8 @@ Project path on remote host. shipit will `cd` to this directory before executin
 Target is just a bunch of shell command that will be executed on remote host via SSH. You can define as many targets as you want.
 
 Note that you can’t use blank lines inside targets but you can use comments (#) and other things—it’s just a shell script.
+
+If you add a target like `[name:local]` it will be executed on your local machine before remote target with the same name. You can define only local, only remote or both targets.
 
 
 ## Changelog
