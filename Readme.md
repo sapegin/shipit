@@ -71,13 +71,13 @@ Here is a typical config:
     path='sites/example.com'
 
     [deploy:local]
-    npm test
+    git push origin master
 
     [deploy]
     git checkout master
     git pull
     npm install
-    node -e "require('grunt').cli()" _ deploy
+    grunt build
 
     [status]
     uptime
@@ -109,7 +109,43 @@ Target is just a bunch of shell command that will be executed on remote host via
 
 Note that you can’t use blank lines inside targets but you can use comments (#) and other things—it’s just a shell script.
 
-If you add a target like `[name:local]` it will be executed on your local machine before remote target with the same name. You can define only local, only remote or both targets.
+### Local targets
+
+If you append `:local` to a target name (like `[name:local]`) it will be executed on your local machine before remote target with the same name. You can define only local, only remote or both targets.
+
+In case of any errors in local target remote target won’t be executed.
+
+You can use these variables:
+
+* `$SSH_HOST` — your config’s `host` value,
+* `$SSH_PATH` — your config’s `path` value.
+
+## Examples
+
+### Deploy from Git
+
+    host='myhost'
+    path='sites/example.com'
+
+    [deploy:local]
+    git push origin master
+
+    [deploy]
+    git checkout master
+    git pull
+    npm install
+    npm prune
+    npm run build
+
+### Deploy with `rsync`
+
+    host='myhost'
+    path='sites/example.com'
+
+    [deploy:local]
+    npm test
+    npm run build
+    rsync --archive --compress --force --delete public/ $SSH_HOST:$SSH_PATH
 
 
 ## Changelog
