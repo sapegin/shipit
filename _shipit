@@ -1,0 +1,41 @@
+#compdef shipit
+#autoload
+
+arguments(){
+	_values -C 'Arguments'  \
+		'(-v --version)'{-v,--version}'[Print program version]' \
+		'(-h --help)'{-h,--help}'[Print help]' \
+}
+
+targets(){
+	local -a _targets
+	_targets=( `awk '/^\[/ {print $1}' ./.shipit | tr -d ']['` )
+	_describe -t commands "shipit targets" _targets
+	
+}
+
+commands(){
+	local -a _commands
+	_commands=(
+		'list:Print list of available targets'
+		'console:Open an SSH session on remote host'
+		'exec:Execute shell command on remote host'
+
+	)
+	_describe -t commands "shipit commands" _commands
+}
+
+_arguments \
+  '*:: :->subcmds' && return 0
+
+if (( CURRENT == 1 )); then
+	arguments
+	commands
+	targets
+
+fi
+
+if (( CURRENT == 2 )); then
+	arguments
+fi
+
