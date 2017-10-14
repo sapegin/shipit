@@ -66,9 +66,6 @@ version() {
 
 # Enable verbose mode
 verbose() {
-	echo "$WHITE"
-	echo "Verbose mode is on!"
-	echo "$NOCOLOR"
 	VERBOSE="1"
 }
 
