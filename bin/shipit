@@ -13,7 +13,9 @@
 
 
 VERSION="0.1.0"
-CONFIG=./.shipit
+CONFIG_DIR=`pwd`
+CONFIG_NAME=.shipit
+CONFIG="$CONFIG_DIR$CONFIG_NAME"
 TARGET=deploy
 SSH_HOST=
 SSH_PATH=
@@ -72,10 +74,26 @@ squirrel() {
 	echo "$NOCOLOR"
 }
 
+# Traverse upwards until we find the config file
+find_config() {
+	while [ ! -f "$CONFIG_DIR/$CONFIG_NAME" ]; do
+		if [ "$CONFIG_DIR" == "/" ]; then
+			break;
+		fi
+
+		CONFIG_DIR=`dirname "$CONFIG_DIR"`
+	done
+
+	if [ -f "$CONFIG_DIR/$CONFIG_NAME" ]; then
+		CONFIG="$CONFIG_DIR/$CONFIG_NAME"
+	fi
+}
+
 # Read and validate config file
 read_config() {
+	find_config
 	# Check config file existance
-	test -f $CONFIG || abort "Config file $CONFIG not found." 
+	test -f $CONFIG || abort "Config file $CONFIG_NAME not found."
 
 	# Read and eval first section
 	local config=`awk '/^/ {print; exit}' RS= $CONFIG`
