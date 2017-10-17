@@ -212,14 +212,20 @@ for arg in "$@"; do
 	case "$arg" in
 		-h|--help) usage; exit ;;
 		-V|--version) version; exit ;;
-		-v|--verbose) verbose; ;;
+		-v|--verbose) verbose; shift ;;
+	esac
+done
+
+arg=$1; shift
+if [ -n "$arg" ]; then
+	case $arg in
 		list|ls) list_targets; exit ;;
 		console|shell|ssh) open_console; exit ;;
 		exec|run) exec_command "$@"; exit ;;
 		copy|cp) copy_to_remote "$@"; exit ;;
 		*) TARGET="$arg" ;;
 	esac
-done
+fi
 
 # Run specified target
 deploy
