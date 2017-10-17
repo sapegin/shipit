@@ -36,20 +36,21 @@ function error() { echo -e "$UNDERLINE$RED$1$NOCOLOR\n"; }
 usage() {
 	version
 	echo
-	echo "Usage: `basename $0` [command|option]"
-	echo
-	echo "Options:"
-	echo
-	echo "    -V, --version    Print program version"
-	echo "    -v, --verbose    Enable verbose mode for SSH"
-	echo "    -h, --help       Print help (this screen)"
+	echo "Usage: `basename $0` [option] <command>"
 	echo
 	echo "Commands:"
 	echo
-	echo "    <target>         Executes <target> target on remote host (run shipit to execute 'deploy' target)"
-	echo "    list             Print list of available targets"
-	echo "    console          Open an SSH session on remote host"
-	echo "    exec <cmd>       Execute <cmd> on remote host"
+	echo "    <target>                 Execute <target> target on remote host"
+	echo "    list         ls          Print list of available targets"
+	echo "    console      shell, ssh  Open an SSH session on the remote host"
+	echo "    exec <cmd>   run         Execute <cmd> on the remote host"
+	echo "    copy <file>  cp          Copy <files> to the remote host"
+	echo "    --version    -V          Print program version"
+	echo "    --help       -h          Print help (this screen)"
+	echo
+	echo "Options:"
+	echo
+	echo "    -v, --verbose            Enable verbose mode for SSH"
 	echo
 }
 
