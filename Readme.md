@@ -2,65 +2,69 @@
 
 Minimalistic SSH deployment.
 
-![shipit](http://blog.sapegin.me/images/mac__shipit.png)
+![shipit](https://d3vv6lp55qjaqc.cloudfront.net/items/0c1z211n0b1m3d1g370u/shipit.png)
 
 ## Installation
 
-    $ pathtoshipit=/usr/local/bin/shipit; curl -o $pathtoshipit https://raw.githubusercontent.com/sapegin/shipit/master/bin/shipit; chmod +x $pathtoshipit; unset pathtoshipit
+Copy this one-liner and run it in your shell:
+
+```bash
+SHPT=/usr/local/bin/shipit; curl -o $SHPT https://raw.githubusercontent.com/sapegin/shipit/master/bin/shipit; chmod +x $SHPT; unset SHPT
+```
 
 You can use this command to update shipit too.
 
-*Use `sudo` or replace `/usr/local/bin/shipit` to path somewhere inside your home directory.*
+**Note:** Use `sudo` or replace `/usr/local/bin/shipit` to path somewhere inside your home directory.
 
 ## Usage
 
-    shipit [command|option]
+```bash
+shipit [option] <command>
+```
 
 ### Options
 
 | Option          | Description |
-| --------------- | --- |
-| -V, --version   | Print program version |
+| --------------- | ----------- |
 | -v, --verbose   | Enable verbose mode for SSH |
-| -h, --help      | Print help (this screen) |
 
 ### Commands
 
-| Command         | Description |
-| --------------- | --- |
-| `<target>`      | Executes `target` target on remote host (run `shipit` to execute 'deploy' target) |
-| list            | Print list of available targets |
-| console         | Open an SSH session on remote host |
-| exec `<cmd>`    | Execute `cmd` on remote host |
-| copy `<file>`   | Copies `files` to remote host |
-
-### Command aliases
-
-| Command         | Aliases |
-| --------------- | --- |
-| list            | ls |
-| console         | shell, ssh |
-| exec            | run |
-| copy            | cp |
+| Command         | Aliases | Description |
+| --------------- | ------- | ----------- |
+| `<target>`      | | Execute `target` target on the remote host |
+| list            | ls | Print list of available targets |
+| console         | shell, ssh | Open an SSH session on remote host |
+| exec `<cmd>`    | run | Execute `cmd` on the remote host |
+| copy `<file>`   | cp | Copy `files` to the remote host |
+| --version       | -V | Print shipit version |
+| --help          | -h | Print help |
 
 ### Examples
 
-    $ shipit
+Execute `deploy` target:
 
-Will execute `deploy` target.
+```bash
+shipit
+```
 
-    $ shipit status
+Execute `status` target:
 
-Will execute `status` target.
+```bash
+shipit status
+```
 
-    $ shipit list
+Show a list of available targets:
 
-Will show a list of available targets.
+```bash
+shipit list
+```
 
-    $ shipit exec uptime
+Execute `uptime` command on the remote host:
 
-Will execute `uptime` command on remote host.
-
+```bash
+shipit exec uptime
+```
 
 ## Configuration
 
@@ -68,24 +72,26 @@ You need to create `.shipit` file in your project’s directory.
 
 Here is a typical config:
 
-    host='myhost'
-    path='sites/example.com'
+```ini
+host='myhost'
+path='sites/example.com'
 
-    [deploy:local]
-    git push origin master
+[deploy:local]
+git push origin master
 
-    [deploy]
-    git checkout master
-    git pull
-    npm install
-    grunt build
+[deploy]
+git checkout master
+git pull
+npm install
+grunt build
 
-    [status]
-    uptime
+[status]
+uptime
+```
 
-The only required things is `host` and `path` parameters and `[deploy]` or `[deploy:local]`  target.
+The only required things are `host` and `path` parameters, and `[deploy]` or `[deploy:local]` target.
 
-For non-standard port number, and to specify which SSH key to use, edit your SSH config at `~/.ssh/config`:
+For non-standard port number and to specify which SSH key to use, edit your SSH config, `~/.ssh/config`:
 
 ```
 host example.com
@@ -125,29 +131,32 @@ You can use these variables:
 
 ### Deploy from Git
 
-    host='myhost'
-    path='sites/example.com'
+```ini
+host='myhost'
+path='sites/example.com'
 
-    [deploy:local]
-    git push origin master
+[deploy:local]
+git push origin master
 
-    [deploy]
-    git checkout master
-    git pull
-    npm install
-    npm prune
-    npm run build
+[deploy]
+git checkout master
+git pull
+npm install
+npm prune
+npm run build
+```
 
 ### Deploy with `rsync`
 
-    host='myhost'
-    path='sites/example.com'
+```ini
+host='myhost'
+path='sites/example.com'
 
-    [deploy:local]
-    npm test
-    npm run build
-    rsync --archive --compress --force --delete public/ $SSH_HOST:$SSH_PATH
-
+[deploy:local]
+npm test
+npm run build
+rsync --archive --compress --force --delete public/ $SSH_HOST:$SSH_PATH
+```
 
 ## Changelog
 
