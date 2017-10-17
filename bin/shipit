@@ -2,7 +2,7 @@
 
 #
 # Minimalistic SSH deployment.
-# 
+#
 # Author: Artem Sapegin, sapegin.me
 # License: MIT
 #
@@ -19,6 +19,7 @@ CONFIG=
 TARGET=deploy
 SSH_HOST=
 SSH_PATH=
+VERBOSE=
 
 # Common stuff
 RED="$(tput setaf 1)"
@@ -40,6 +41,7 @@ usage() {
 	echo "Options:"
 	echo
 	echo "    -V, --version    Print program version"
+	echo "    -v, --verbose    Enable verbose mode for SSH"
 	echo "    -h, --help       Print help (this screen)"
 	echo
 	echo "Commands:"
@@ -62,6 +64,11 @@ abort() {
 version() {
 	echo
 	echo "`basename $0` v$VERSION"
+}
+
+# Enable verbose mode
+verbose() {
+	VERBOSE="1"
 }
 
 # Print squirrel
@@ -103,7 +110,7 @@ read_config() {
 	test -z "$host" && incomplete_config 'host'
 	test -z "$path" && incomplete_config 'path'
 	test -z "$host" || test -z "$path" && exit 1
-	
+
 	# Expose params
 	SSH_HOST=$host
 	SSH_PATH=$path
@@ -130,7 +137,7 @@ deploy() {
 		header "Running local script..."
 		run_local "$local_script"
 		if [ $? -ne 0 ]; then
-			abort "Deploy wasn’t successful: local script failed."	
+			abort "Deploy wasn’t successful: local script failed."
 		fi
 	fi
 
@@ -140,7 +147,7 @@ deploy() {
 		header "Running remote script at $SSH_HOST..."
 		run_remote "$remote_script"
 		if [ $? -ne 0 ]; then
-			abort "Deploy wasn’t successful: remote script failed."	
+			abort "Deploy wasn’t successful: remote script failed."
 		fi
 	fi
 
@@ -168,7 +175,14 @@ run_remote() {
 		cd \"$SSH_PATH\"
 		$1
 	"""
-	ssh -A $2 "$SSH_HOST" "$script"
+
+	local verbose=
+
+	if [ -n "$VERBOSE" ]; then
+		verbose="-v"
+	fi
+
+	ssh $verbose -A $2 "$SSH_HOST" "$script"
 }
 
 # Run local script
@@ -203,7 +217,7 @@ exec_command() {
 # Copy local file to remote host
 copy_to_remote() {
 	read_config
-	test -f "$1" || abort "Local file $1 not found." 
+	test -f "$1" || abort "Local file $1 not found."
 	header "Copying $1 to $SSH_HOST..."
 	scp "$1" "$SSH_HOST:$SSH_PATH/$1"
 }
@@ -212,11 +226,17 @@ copy_to_remote() {
 ########################################################################################################################
 
 # Parse CLI arguments
+for arg in "$@"; do
+	case "$arg" in
+		-h|--help) usage; exit ;;
+		-V|--version) version; exit ;;
+		-v|--verbose) verbose; shift ;;
+	esac
+done
+
 arg=$1; shift
 if [ -n "$arg" ]; then
 	case $arg in
-		-h|--help) usage; exit ;;
-		-V|--version) version; exit ;;
 		list|ls) list_targets; exit ;;
 		console|shell|ssh) open_console; exit ;;
 		exec|run) exec_command "$@"; exit ;;

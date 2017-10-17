@@ -21,6 +21,7 @@ You can use this command to update shipit too.
 | Option          | Description |
 | --------------- | --- |
 | -V, --version   | Print program version |
+| -v, --verbose   | Enable verbose mode for SSH |
 | -h, --help      | Print help (this screen) |
 
 ### Commands
