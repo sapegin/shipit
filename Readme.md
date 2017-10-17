@@ -22,12 +22,6 @@ You can use this command to update shipit too.
 shipit [option] <command>
 ```
 
-### Options
-
-| Option          | Description |
-| --------------- | ----------- |
-| -v, --verbose   | Enable verbose mode for SSH |
-
 ### Commands
 
 | Command         | Aliases | Description |
@@ -39,6 +33,12 @@ shipit [option] <command>
 | copy `<file>`   | cp | Copy `files` to the remote host |
 | --version       | -V | Print shipit version |
 | --help          | -h | Print help |
+
+### Options
+
+| Option          | Description |
+| --------------- | ----------- |
+| -v, --verbose   | Enable verbose mode for SSH |
 
 ### Examples
 
