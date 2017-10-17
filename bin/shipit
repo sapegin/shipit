@@ -15,7 +15,7 @@
 VERSION="0.1.0"
 CONFIG_DIR=`pwd`
 CONFIG_NAME=.shipit
-CONFIG="$CONFIG_DIR$CONFIG_NAME"
+CONFIG=
 TARGET=deploy
 SSH_HOST=
 SSH_PATH=
@@ -93,7 +93,7 @@ find_config() {
 read_config() {
 	find_config
 	# Check config file existance
-	test -f $CONFIG || abort "Config file $CONFIG_NAME not found."
+	test -f "$CONFIG" || abort "Config file $CONFIG_NAME not found."
 
 	# Read and eval first section
 	local config=`awk '/^/ {print; exit}' RS= $CONFIG`
