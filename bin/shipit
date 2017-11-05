@@ -240,7 +240,7 @@ done
 arg=$1; shift
 if [ -n "$arg" ]; then
 	case $arg in
-		-c|--config) CONFIG_NAME="$@"; exit ;;
+		-c|--config) CONFIG_NAME="$@";;
 		-h|--help) usage; exit ;;
 		-V|--version) version; exit ;;
 		list|ls) list_targets; exit ;;
