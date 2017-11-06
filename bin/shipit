@@ -233,7 +233,7 @@ copy_to_remote() {
 for arg in "$@"; do
 	case "$arg" in
 		-v|--verbose) verbose; shift ;;
-		-c|--config) CONFIG_NAME=$2; shift;;
+		-c|--config) CONFIG_NAME=$2; shift; shift ;;
 	esac
 done
 
