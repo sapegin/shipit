@@ -31,7 +31,7 @@ shipit [option] <command>
 | console         | shell, ssh | Open an SSH session on remote host |
 | exec `<cmd>`    | run | Execute `cmd` on the remote host |
 | copy `<file>`   | cp | Copy `files` to the remote host |
-| --config        | -c | Path config file |
+| --config        | -c | Config file path (default: .shipit) |
 | --version       | -V | Print shipit version |
 | --help          | -h | Print help |
 

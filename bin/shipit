@@ -45,7 +45,7 @@ usage() {
 	echo "    console      shell, ssh  Open an SSH session on the remote host"
 	echo "    exec <cmd>   run         Execute <cmd> on the remote host"
 	echo "    copy <file>  cp          Copy <files> to the remote host"
-	echo "    --config     -c          Path config file"
+	echo "    --config     -c          Config file path (default: .shipit)"
 	echo "    --version    -V          Print program version"
 	echo "    --help       -h          Print help (this screen)"
 	echo
@@ -240,9 +240,9 @@ done
 arg=$1; shift
 if [ -n "$arg" ]; then
 	case $arg in
-		-c|--config) CONFIG_NAME="$@";;
 		-h|--help) usage; exit ;;
 		-V|--version) version; exit ;;
+		-c|--config) CONFIG_NAME="$@";;
 		list|ls) list_targets; exit ;;
 		console|shell|ssh) open_console; exit ;;
 		exec|run) exec_command "$@"; exit ;;
