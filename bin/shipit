@@ -45,12 +45,12 @@ usage() {
 	echo "    console      shell, ssh  Open an SSH session on the remote host"
 	echo "    exec <cmd>   run         Execute <cmd> on the remote host"
 	echo "    copy <file>  cp          Copy <files> to the remote host"
-	echo "    --config     -c          Config file name (default: .shipit)"
 	echo "    --version    -V          Print program version"
 	echo "    --help       -h          Print help (this screen)"
 	echo
 	echo "Options:"
 	echo
+	echo "    -c, --config             Config file name (default: .shipit)"
 	echo "    -v, --verbose            Enable verbose mode for SSH"
 	echo
 }
@@ -69,8 +69,14 @@ version() {
 }
 
 # Enable verbose mode
-verbose() {
+set_verbose() {
 	VERBOSE="1"
+}
+
+# Set config file name
+set_config_file() {
+	test -z "$1" && abort 'File name is required for --config/-c option.'
+	CONFIG_NAME="$1"
 }
 
 # Print squirrel
@@ -232,8 +238,8 @@ copy_to_remote() {
 # Options
 for arg in "$@"; do
 	case "$arg" in
-		-v|--verbose) verbose; shift ;;
-		-c|--config) CONFIG_NAME="$2"; shift; shift ;;
+		-v|--verbose) set_verbose; shift ;;
+		-c|--config) set_config_file "$2"; shift; shift ;;
 	esac
 done
 
