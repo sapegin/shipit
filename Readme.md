@@ -9,7 +9,7 @@ Minimalistic SSH deployment.
 Copy this one-liner and run it in your shell:
 
 ```bash
-SHPT=/usr/local/bin/shipit; curl -o $SHPT https://raw.githubusercontent.com/sapegin/shipit/master/bin/shipit; chmod +x $SHPT; unset SHPT
+SHPT=/usr/local/bin/shipit && curl -o $SHPT https://raw.githubusercontent.com/sapegin/shipit/master/bin/shipit && chmod +x $SHPT && unset SHPT
 ```
 
 You can use this command to update shipit too.
@@ -31,6 +31,7 @@ shipit [option] <command>
 | console         | shell, ssh | Open an SSH session on remote host |
 | exec `<cmd>`    | run | Execute `cmd` on the remote host |
 | copy `<file>`   | cp | Copy `files` to the remote host |
+| --config        | -c | Config file path (default: .shipit) |
 | --version       | -V | Print shipit version |
 | --help          | -h | Print help |
 
