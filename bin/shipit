@@ -12,7 +12,7 @@
 #
 
 
-VERSION="0.2.0"
+VERSION="0.3.0"
 CONFIG_DIR=`pwd`
 CONFIG_NAME=.shipit
 CONFIG=
@@ -51,6 +51,7 @@ usage() {
 	echo
 	echo "Options:"
 	echo
+	echo "    -c, --config             Config file name (default: .shipit)"
 	echo "    -v, --verbose            Enable verbose mode for SSH"
 	echo
 }
@@ -69,8 +70,14 @@ version() {
 }
 
 # Enable verbose mode
-verbose() {
+set_verbose() {
 	VERBOSE="1"
+}
+
+# Set config file name
+set_config_file() {
+	test -z "$1" && abort 'File name is required for --config/-c option.'
+	CONFIG_NAME="$1"
 }
 
 # Print squirrel
@@ -232,8 +239,8 @@ copy_to_remote() {
 # Options
 for arg in "$@"; do
 	case "$arg" in
-		-v|--verbose) verbose; shift ;;
-		-c|--config) CONFIG_NAME=$2; shift; shift ;;
+		-v|--verbose) set_verbose; shift ;;
+		-c|--config) set_config_file "$2"; shift; shift ;;
 	esac
 done
 
