@@ -9,7 +9,7 @@ Minimalistic SSH deployment.
 Copy this one-liner and run it in your shell:
 
 ```bash
-SHPT=/usr/local/bin/shipit; curl -o $SHPT https://raw.githubusercontent.com/sapegin/shipit/master/bin/shipit; chmod +x $SHPT; unset SHPT
+SHPT=/usr/local/bin/shipit && curl -o $SHPT https://raw.githubusercontent.com/sapegin/shipit/master/bin/shipit && chmod +x $SHPT && unset SHPT
 ```
 
 You can use this command to update shipit too.
