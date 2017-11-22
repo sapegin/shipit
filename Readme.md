@@ -4,6 +4,8 @@ Minimalistic SSH deployment.
 
 ![shipit](https://d3vv6lp55qjaqc.cloudfront.net/items/0c1z211n0b1m3d1g370u/shipit.png)
 
+[![Code Sponsor](https://app.codesponsor.io/embed/Ehc9nFenMsMG6p9KFod8F3df/sapegin/shipit.svg)](https://app.codesponsor.io/link/Ehc9nFenMsMG6p9KFod8F3df/sapegin/shipit)
+
 ## Installation
 
 Copy this one-liner and run it in your shell:
