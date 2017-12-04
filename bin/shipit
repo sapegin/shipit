@@ -11,9 +11,9 @@
 # http://gleero.com/all/remote-ssh/
 #
 
-
+PROGRAM=$(basename "$0")
 VERSION="0.3.0"
-CONFIG_DIR=`pwd`
+CONFIG_DIR=$(pwd)
 CONFIG_NAME=.shipit
 CONFIG=
 TARGET=deploy
@@ -36,7 +36,7 @@ function error() { echo -e "$UNDERLINE$RED$1$NOCOLOR\n"; }
 usage() {
 	version
 	echo
-	echo "Usage: `basename $0` [option] <command>"
+	echo "Usage: $PROGRAM [option] <command>"
 	echo
 	echo "Commands:"
 	echo
@@ -65,7 +65,7 @@ abort() {
 # Print version number
 version() {
 	echo
-	echo "`basename $0` v$VERSION"
+	echo "$PROGRAM v$VERSION"
 }
 
 # Enable verbose mode
@@ -96,7 +96,7 @@ find_config() {
 			break;
 		fi
 
-		CONFIG_DIR=`dirname "$CONFIG_DIR"`
+		CONFIG_DIR=$(dirname "$CONFIG_DIR")
 	done
 
 	if [ -f "$CONFIG_DIR/$CONFIG_NAME" ]; then
@@ -106,12 +106,14 @@ find_config() {
 
 # Read and validate config file
 read_config() {
+	local config
+
 	find_config
 	# Check config file existance
 	test -f "$CONFIG" || abort "Config file $CONFIG_NAME not found."
 
 	# Read and eval first section
-	local config=`awk '/^/ {print; exit}' RS= $CONFIG`
+	config=$(awk '/^/ {print; exit}' RS= $CONFIG)
 	eval $config
 
 	# Check required params
@@ -131,6 +133,9 @@ incomplete_config() {
 
 # Deploy specified target
 deploy() {
+	local local_script
+	local remote_script
+
 	read_config
 
 	# Check target existance
@@ -140,7 +145,7 @@ deploy() {
 	header "Shipping $TARGET..."
 
 	# Read local script
-	local local_script=`awk "/^\[$TARGET:local\]/ {print; exit}" RS= $CONFIG | sed 1d`
+	local_script=$(awk "/^\[$TARGET:local\]/ {print; exit}" RS= $CONFIG | sed 1d)
 	if [ -n "$local_script" ]; then
 		header "Running local script..."
 		run_local "$local_script"
@@ -150,7 +155,7 @@ deploy() {
 	fi
 
 	# Read remote script
-	local remote_script=`awk "/^\[$TARGET\]/ {print; exit}" RS= $CONFIG | sed 1d`
+	remote_script=$(awk "/^\[$TARGET\]/ {print; exit}" RS= $CONFIG | sed 1d)
 	if [ -n "$remote_script" ]; then
 		header "Running remote script at $SSH_HOST..."
 		run_remote "$remote_script"
@@ -218,8 +223,8 @@ open_console() {
 # Execute command via SSH
 exec_command() {
 	read_config
-	header "Executing $@ on $SSH_HOST..."
-	run_remote $@
+	header "Executing $* on $SSH_HOST..."
+	run_remote "$*"
 }
 
 # Copy local file to remote host
