@@ -163,9 +163,16 @@ rsync --archive --compress --force --delete public/ $SSH_HOST:$SSH_PATH
 
 The changelog can be found on the [Releases page](https://github.com/sapegin/shipit/releases).
 
+## Sponsoring
+
+This software has been developed with lots of coffee, buy me one more cup to keep it going.
+
+<a href="https://www.buymeacoffee.com/sapegin" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" height="51" width="217" ></a>
 
 ---
 
-## License
+## Authors and license
 
-The MIT License, see the included [License.md](License.md) file.
+[Artem Sapegin](https://sapegin.me) and [contributors](https://github.com/sapegin/shipit/graphs/contributors).
+
+MIT License, see the included [License.md](License.md) file.
