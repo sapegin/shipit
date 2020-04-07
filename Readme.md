@@ -39,6 +39,7 @@ shipit [option] <command>
 | Option          | Description |
 | --------------- | ----------- |
 | -c, --config    | Config file path (default: `.shipit`) |
+| -r, --remote    | Override remote host |
 | -v, --verbose   | Enable verbose mode for SSH |
 
 ### Examples
