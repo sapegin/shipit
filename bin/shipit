@@ -51,6 +51,7 @@ usage() {
 	echo "Options:"
 	echo
 	echo "    -c, --config             Config file name (default: .shipit)"
+	echo "    -r, --remote             Override remote host"
 	echo "    -v, --verbose            Enable verbose mode for SSH"
 	echo
 }
@@ -77,6 +78,12 @@ set_verbose() {
 set_config_file() {
 	test -z "$1" && abort 'File name is required for --config/-c option.'
 	CONFIG_NAME="$1"
+}
+
+# Set remote host
+set_remote_host() {
+	test -z "$1" && abort 'Hostname is required for --remote/-r option.'
+	SSH_HOST="$1"
 }
 
 # Print squirrel
@@ -122,7 +129,7 @@ read_config() {
 	test -z "$host" || test -z "$path" && exit 1
 
 	# Expose params
-	SSH_HOST=$host
+	SSH_HOST="${SSH_HOST:-$host}"
 	SSH_PATH=$path
 }
 
@@ -245,6 +252,7 @@ for arg in "$@"; do
 	case "$arg" in
 		-v|--verbose) set_verbose; shift ;;
 		-c|--config) set_config_file "$2"; shift; shift ;;
+		-r|--remote) set_remote_host "$2"; shift; shift ;;
 	esac
 done
 
